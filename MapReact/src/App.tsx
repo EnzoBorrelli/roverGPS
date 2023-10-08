@@ -1,17 +1,39 @@
 import "./App.css";
 import { useState, useEffect, useRef } from "react";
 import { LngLatLike, Map, Marker } from "mapbox-gl";
+import { onValue, ref } from "firebase/database";
+import { database } from "../init-firebase";
 
 function App() {
   const divMapaRef = useRef<HTMLDivElement>(null);
   const [mapa, setMapa] = useState<Map>();
   const [center, setCenter] = useState<LngLatLike>([-58.0001, -34]);
+  const marker = new Marker();
+  const [vLat, setVLat] = useState(0);
+  const [vLong, setVLong] = useState(0);
+
+  var gpsLat: number;
+  var gpsLong: number;
+
+  useEffect(() => {
+    onValue(ref(database), (snapshot) => {
+      const data = snapshot.val();
+      gpsLat = data?.GPSAccuracyLogger?.gpsLAT;
+      gpsLong = data?.GPSAccuracyLogger?.gpsLONG;
+      setCenter([gpsLong, gpsLat]);
+      setVLat(gpsLat);
+      setVLong(gpsLong);
+    });
+  }, []);
+
   useEffect(() => {
     mapa?.flyTo({ center });
     if (mapa) {
-      new Marker().setLngLat(center).addTo(mapa);
+      marker.remove();
+      marker.setLngLat(center).addTo(mapa);
     }
   }, [center]);
+
   useEffect(() => {
     if (divMapaRef.current) {
       setMapa(
@@ -19,27 +41,30 @@ function App() {
           container: divMapaRef.current, // container ID
           style: "mapbox://styles/mapbox/streets-v12", // style URL
           center, // starting position [lng, lat]
-          zoom: 9, // starting zoom
+          zoom: 1, // starting zoom
         })
       );
     }
   }, [divMapaRef]);
 
-  function Alol() {
-    setCenter([-10, -10]);
-  }
-  function Blol() {
-    setCenter([-20, -20]);
-  }
-  function Clol() {
-    setCenter([-30, -30]);
+  function CenterMap() {
+    mapa?.flyTo({ center });
+    console.log(center);
   }
 
   return (
     <body>
-      <button onClick={Alol}>A</button>
-      <button onClick={Blol}>B</button>
-      <button onClick={Clol}>C</button>
+      <div className="overlay">
+        <div className="btnsContainer">
+          <button className="Btn" onClick={CenterMap}>
+            Centrar Mapa
+          </button>
+        </div>
+        <div className="coordsDiv">
+          <h2 className="coordsH2">LAT: {vLat}</h2>
+          <h2 className="coordsH2">LONG: {vLong}</h2>
+        </div>
+      </div>
       <div className="mapDiv" ref={divMapaRef}></div>
     </body>
   );

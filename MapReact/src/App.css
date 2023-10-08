@@ -1,6 +1,32 @@
 body {
   overflow: hidden;
 }
+.overlay {
+  position: fixed;
+  display: flex;
+  flex-flow: column wrap;
+  z-index: 1;
+  font-size: 1rem;
+  margin: 1rem 2rem;
+  color: black;
+}
+.btnsContainer{
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+.Btn{
+  color: aliceblue;
+  background-color: rgba(0, 0, 0, 0.226);
+  padding: .5rem;
+  border-radius: .5rem;
+}
+.Btn:hover{
+  cursor: pointer;
+}
+.Btn:active{
+  color:dimgray;
+  background-color: rgba(0, 0, 0, 0.345);
+}
 
 .mapDiv {
   width: 100%;
