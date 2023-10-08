@@ -1,14 +1,25 @@
 import "./App.css";
 import { useState, useEffect, useRef } from "react";
-import { LngLatLike, Map, Marker } from "mapbox-gl";
+import {LngLatLike, Map, Marker } from "mapbox-gl";
 import { onValue, ref } from "firebase/database";
 import { database } from "../init-firebase";
+import rover from "./assets/rover.ico";
 
 function App() {
   const divMapaRef = useRef<HTMLDivElement>(null);
   const [mapa, setMapa] = useState<Map>();
+
   const [center, setCenter] = useState<LngLatLike>([-58.0001, -34]);
-  const marker = new Marker();
+
+  const rvSym = document.createElement("img");
+  rvSym.className = "marker";
+  rvSym.src = rover;
+  rvSym.style.width = `3rem`;
+  rvSym.style.height = `3rem`;
+  rvSym.style.backgroundSize = "100%";
+
+  const marker = new Marker(rvSym);
+
   const [vLat, setVLat] = useState(0);
   const [vLong, setVLong] = useState(0);
 
@@ -29,7 +40,6 @@ function App() {
   useEffect(() => {
     mapa?.flyTo({ center });
     if (mapa) {
-      marker.remove();
       marker.setLngLat(center).addTo(mapa);
     }
   }, [center]);
@@ -41,7 +51,7 @@ function App() {
           container: divMapaRef.current, // container ID
           style: "mapbox://styles/mapbox/streets-v12", // style URL
           center, // starting position [lng, lat]
-          zoom: 1, // starting zoom
+          zoom: 8, // starting zoom
         })
       );
     }
@@ -49,7 +59,6 @@ function App() {
 
   function CenterMap() {
     mapa?.flyTo({ center });
-    console.log(center);
   }
 
   return (

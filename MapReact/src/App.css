@@ -7,27 +7,42 @@ body {
   flex-flow: column wrap;
   z-index: 1;
   font-size: 1rem;
-  margin: 1rem 2rem;
-  color: black;
+  margin: 0.5rem 1rem;
+  color:black;
 }
-.btnsContainer{
+.btnsContainer {
+  display: flex;
+  flex-flow: row nowrap;
   font-size: 1rem;
   margin-bottom: 1rem;
 }
-.Btn{
+.Btn {
+  font-weight: bolder;
   color: aliceblue;
-  background-color: rgba(0, 0, 0, 0.226);
-  padding: .5rem;
-  border-radius: .5rem;
+  background-color: rgba(0, 0, 0, 0.35);
+  padding: 0.5rem;
+  margin: 0 0.2rem;
+  border-radius: 0.5rem;
 }
-.Btn:hover{
+.Btn:hover {
   cursor: pointer;
 }
-.Btn:active{
-  color:dimgray;
-  background-color: rgba(0, 0, 0, 0.345);
+.Btn:active {
+  color: dimgray;
+  background-color: rgba(0, 0, 0, 0.5);
 }
-
+.coordsDiv{
+  width: fit-content;
+}
+.coordsH2 {
+  margin: 0.5rem;
+  color:rgb(255, 234, 0);
+  background-color: rgba(94, 83, 3, 0.2);
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  font-weight: bolder;
+  backdrop-filter: blur(2px);
+}
 .mapDiv {
   width: 100%;
   height: 50rem;
