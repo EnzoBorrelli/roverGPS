@@ -18,7 +18,7 @@ function App() {
   rvSym.style.height = `3rem`;
   rvSym.style.backgroundSize = "100%";
 
-  const marker = new Marker(rvSym);
+  const marker = useRef<Marker>();
 
   const [vLat, setVLat] = useState(0);
   const [vLong, setVLong] = useState(0);
@@ -40,7 +40,9 @@ function App() {
   useEffect(() => {
     mapa?.flyTo({ center });
     if (mapa) {
-      marker.setLngLat(center).addTo(mapa);
+      if(marker.current)marker.current.remove();
+      marker.current = new Marker(rvSym);
+      marker.current.setLngLat(center).addTo(mapa);
     }
   }, [center]);
 
