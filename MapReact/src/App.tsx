@@ -60,7 +60,10 @@ function App() {
   }, [divMapaRef]);
 
   function CenterMap() {
-    mapa?.flyTo({ center });
+    mapa?.flyTo({ center});
+  }
+  function LockOn() {
+    mapa?.flyTo({ center,zoom:18});
   }
 
   return (
@@ -69,6 +72,9 @@ function App() {
         <div className="btnsContainer">
           <button className="Btn" onClick={CenterMap}>
             Centrar Mapa
+          </button>
+          <button className="Btn" onClick={LockOn}>
+            Enfocar a Roverta
           </button>
         </div>
         <div className="coordsDiv">
